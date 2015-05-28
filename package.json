@@ -25,6 +25,7 @@
     "font-awesome": "^4.3.0",
     "jquery": "^2.1.4",
     "less-middleware": "^2.0.1",
+    "multer": "^0.1.8",
     "winston": "^1.0.0"
   }
 }

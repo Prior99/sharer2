@@ -19,6 +19,8 @@ var Sharer = function(options) {
 	this.express.set("view engine", ".hbs");
 	this.express.use('/', Express.static('public/'));
 	this.express.get('/', require("./models/home")());
+	this.express.get('/upload', require("./models/upload")());
+	this.express.use('/api', require("./models/api/api")());
 	this.express.use('/bootstrap', Express.static('node_modules/bootstrap/dist/'));
 	this.express.use('/jquery', Express.static('node_modules/jquery/dist/'));
 	this.express.use('/fontawesome', Express.static('node_modules/font-awesome/'));

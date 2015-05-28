@@ -1,0 +1,39 @@
+<link href="/style/upload.css" rel="stylesheet">
+<h1>Upload</h1>
+
+<form method="post" enctype="multipart/form-data">
+	<h1>Select a file</h1>
+	<div class="fileWrapper">
+		<span>Drag Files Here</span><br />
+		<span style="font-size: 12pt;">(Or click and select)</span>
+		<input type="file" name="upload[]" multiple="multiple"/>
+	</div>
+</form>
+
+<script>
+$(":file").change(function() {
+
+	var formdata = new FormData($("form")[0]);
+
+	$.ajax({
+		url : "/api/upload",
+		type : "POST",
+		xhr : function() {
+			var xhr = $.ajaxSettings.xhr();
+			if(xhr.upload) {
+				//TODO: Progressbar
+			}
+			return xhr;
+		},
+		cache : false,
+		data: formdata,
+		processData: false,
+		contentType : false,
+		success : function(json) {
+			var data = JSON.parse(json);
+			console.log(data);
+			//TODO: Display status
+		}
+	});
+});
+</script>
