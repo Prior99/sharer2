@@ -1,0 +1,30 @@
+{
+  "name": "sharer",
+  "version": "2.0.0",
+  "description": "A webtool to share files.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.cronosx.de/prior/Sharer2"
+  },
+  "keywords": [
+    "share",
+    "cloud",
+    "upload",
+    "storage"
+  ],
+  "author": "Frederick Gnodtke",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.4",
+    "express": "^4.12.4",
+    "express-handlebars": "^2.0.1",
+    "font-awesome": "^4.3.0",
+    "jquery": "^2.1.4",
+    "less-middleware": "^2.0.1",
+    "winston": "^1.0.0"
+  }
+}

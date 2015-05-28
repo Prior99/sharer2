@@ -1,0 +1,4 @@
+config.json
+public/style/*.css
+*.log
+node_modules/
