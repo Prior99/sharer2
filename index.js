@@ -57,6 +57,7 @@ Winston.info(" * ");
 var sharer = new Sharer(options);
 
 process.on('SIGINT', function() {
+	console.log();
 	if(_killed) {
 		Winston.error("CTRL^C pressed twice! Terminating application!");
 		process.exit(1);

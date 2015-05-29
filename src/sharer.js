@@ -6,10 +6,26 @@ var Express = require("express");
 var ExpressHandlebars = require("express-handlebars");
 var LessMiddleware = require("less-middleware");
 
-var Sharer = function(options) {
-	Winston.info("Webserver starting up ...");
-	this.port = options.port ? options.port : 43526;
+var Database = require("./database");
 
+var Sharer = function(options) {
+	this.port = options.port ? options.port : 43526;
+	this._startDatabase(options.database, function(err) {
+		if(err) {
+			throw err;
+		}
+		else {
+			this._startWebserver();
+		}
+	}.bind(this));
+
+};
+
+Sharer.prototype._startDatabase = function(options, callback) {
+	this.database = new Database(options, callback);
+};
+Sharer.prototype._startWebserver = function(callback) {
+	Winston.info("Webserver starting up ...");
 	this.express = Express();
 	this.express.engine(".hbs", ExpressHandlebars({
 		defaultLayout : "main",
@@ -25,15 +41,29 @@ var Sharer = function(options) {
 	this.express.use('/jquery', Express.static('node_modules/jquery/dist/'));
 	this.express.use('/fontawesome', Express.static('node_modules/font-awesome/'));
 	this._httpServer = this.express.listen(this.port, function() {
-		   Winston.info("Webserver successfully started!");
+		Winston.info("Webserver successfully started!");
+		if(callback) { callback(); }
+	});
+};
+
+Sharer.prototype._stopDatabase = function(callback) {
+	Winston.info("Database shutting down ...");
+	this.database.stop(function() {
+		Winston.info("Database successfully stopped!");
+		if(callback) { callback(); }
+	});
+};
+
+Sharer.prototype._stopWebserver = function(callback) {
+	Winston.info("Webserver shutting down ...");
+	this._httpServer.close(function() {
+		Winston.info("Webserver successfully stopped!");
+		if(callback) { callback(); }
 	});
 };
 
 Sharer.prototype.stop = function() {
-	Winston.info("Webserver shutting down ...");
-	this._httpServer.close(function() {
-		Winston.info("Webserver successfully stopped!");
-	});
-}
+	this._stopWebserver(this._stopDatabase.bind(this));
+};
 
 module.exports = Sharer;

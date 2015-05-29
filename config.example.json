@@ -1,3 +1,9 @@
 {
-    "port" : 23456
+    "port" : 23456,
+    "database" : {
+        "host" : "localhost",
+        "user" : "sharer",
+        "database" : "sharer",
+        "password" : "super_secret_password"
+    }
 }
