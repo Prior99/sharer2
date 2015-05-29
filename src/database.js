@@ -32,6 +32,18 @@ var Database = function(options, callback) {
 	}.bind(this));
 };
 
+Database.prototype.getFileList = function(callback) {
+	this.pool.query("SELECT id, filename, size, ip, mimetype, uploaded FROM Files LIMIT 200", function(err, rows) {
+		if(err) {
+			if(callback) { callback(err); }
+			else throw err;
+		}
+		else {
+			if(callback) { callback(null, rows); }
+		}
+	});
+};
+
 Database.prototype.addFile = function(filename, size, ip, mimetype, callback) {
 	if(filename && size && ip && mimetype) {
 		this.pool.query("INSERT INTO Files(filename, size, ip, mimetype, uploaded) VALUES (?, ?, ?, ?, ?)",

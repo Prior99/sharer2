@@ -1,0 +1,43 @@
+<link href="/style/downloads.css" rel="stylesheet">
+<h1>Downloads</h1>
+<table class="table">
+	<thead class="table">
+		<tr>
+			<th class="col-md-5">Filename</th>
+			<th class="col-md-2">Date</th>
+			<th class="col-md-2">Size</th>
+			<th class="col-md-2">Type</th>
+			<th class="col-md-1">Download</th>
+		</tr>
+	</thead>
+	<tbody id="files">
+	</tbody>
+</table>
+
+<script>
+	var downloadEntryHtml;
+	var filelistElem = $("#files");
+
+	function addEntry(file) {
+		var elem = $(downloadEntryHtml);
+		elem.find("filename").html(file.filename);
+		elem.find("date").html(file.date);
+		elem.find("size").html(file.size);
+		elem.find("type").html(file.mimetype);
+		elem.find("download").attr("href", "/d/" + file.id);
+		elem.appendTo(filelistElem);
+	}
+
+	function startListing() {
+		$.ajax("/api/list").done(function(data) {
+			for(var i in data) {
+				addEntry(data[i]);
+			}
+		});
+	}
+
+	$.ajax("/html/downloadlistentry.html").done(function(html) {
+		downloadEntryHtml = html;
+		startListing();
+	});
+</script>

@@ -56,6 +56,29 @@ Filemanager.prototype.getFile = function(encodedIndex, callback) {
 	});
 };
 
+Filemanager.prototype.getFileList = function(callback) {
+	this.database.getFileList(function(err, list) {
+		if(err) {
+			Winston.error("Could not retrieve file from database.");
+			callback(err);
+		}
+		else {
+			var arr = [];
+			for(var i in list) {
+				var entry = list[i];
+				arr.push({
+					id : this.encodeIndex(entry.id),
+					filename : entry.filename,
+					date : entry.uploaded,
+					mimetype : entry.mimetype,
+					size : entry. size
+				});
+			}
+			callback(null, arr);
+		}
+	}.bind(this));
+};
+
 Filemanager.prototype.encodeIndex = function(index) {
 	var cipher = Crypto.createCipher('aes192', this.key);
 	cipher.update("" + index, "utf8", "hex");
