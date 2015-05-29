@@ -53,6 +53,27 @@ Database.prototype.addFile = function(filename, size, ip, mimetype, callback) {
 	}
 };
 
+Database.prototype.getFile = function(index, callback) {
+	if(index) {
+		this.pool.query("SELECT filename, size, ip, mimetype, uploaded FROM Files WHERE id = ?",
+			[index], function(err, rows) {
+				if(err) {
+					if(callback) { callback(err); }
+					else throw err;
+				}
+				else {
+					if(callback) { callback(null, rows[0]) }
+				}
+			}
+		);
+	}
+	else {
+		var err = new Error("Not all needed arguments were supplied.");
+		if(callback) { callback(err); }
+		else { throw err; }
+	}
+};
+
 Database.prototype._setupDatabase = function(callback) {
 	FS.readFile("schemas/database.sql", {encoding : "utf8"}, function(err, data) {
 		if(err) {

@@ -43,16 +43,29 @@ Filemanager.prototype.addFile = function(filename, tempfile, ip, mimetype, callb
 
 };
 
+Filemanager.prototype.getFile = function(encodedIndex, callback) {
+	var index = this.decodeIndex(encodedIndex);
+	this.database.getFile(index, function(err, file) {
+		if(err) {
+			Winston.error("Could not retrieve file from database.");
+			callback(err);
+		}
+		else {
+			callback(null, file);
+		}
+	});
+};
+
 Filemanager.prototype.encodeIndex = function(index) {
-	cipher = Crypto.createCipher('aes192', this.key);
+	var cipher = Crypto.createCipher('aes192', this.key);
 	cipher.update("" + index, "utf8", "hex");
 	return cipher.final("hex");
 };
 
 Filemanager.prototype.decodeIndex = function(encoded) {
-	decipher = Crypto.createDecipher('aes192', this.key);
+	var decipher = Crypto.createDecipher('aes192', this.key);
 	decipher.update(encoded, "hex", "utf8");
-	return parseInt(decipher.final("hex"));
+	return parseInt(decipher.final());
 };
 
 module.exports = Filemanager;

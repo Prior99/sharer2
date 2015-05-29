@@ -22,6 +22,7 @@ var Webserver = function(port, filemanager, callback) {
 	this.express.set("view engine", ".hbs");
 	this.express.use('/', Express.static('public/'));
 	this.express.get('/', require("./models/home")());
+	this.express.get('/d/:filename', require("./models/api/download")(filemanager)); //Shortcut
 	this.express.get('/upload', require("./models/upload")());
 	this.express.use('/api', require("./models/api/api")(filemanager));
 	this.express.use('/bootstrap', Express.static('node_modules/bootstrap/dist/'));
