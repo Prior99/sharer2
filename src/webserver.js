@@ -9,8 +9,9 @@ var LessMiddleware = require("less-middleware");
 /*
  * Code
  */
-var Webserver = function(port, callback) {
+var Webserver = function(port, filemanager, callback) {
 	this.port = port;
+	this.filemanager = filemanager;
 	Winston.info("Webserver starting up ...");
 	this.express = Express();
 	this.express.engine(".hbs", ExpressHandlebars({
@@ -22,7 +23,7 @@ var Webserver = function(port, callback) {
 	this.express.use('/', Express.static('public/'));
 	this.express.get('/', require("./models/home")());
 	this.express.get('/upload', require("./models/upload")());
-	this.express.use('/api', require("./models/api/api")());
+	this.express.use('/api', require("./models/api/api")(filemanager));
 	this.express.use('/bootstrap', Express.static('node_modules/bootstrap/dist/'));
 	this.express.use('/jquery', Express.static('node_modules/jquery/dist/'));
 	this.express.use('/fontawesome', Express.static('node_modules/font-awesome/'));

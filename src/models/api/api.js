@@ -6,10 +6,10 @@ var Express = require('express');
 /*
  * Code
  */
-module.exports = function() {
+module.exports = function(filemanager) {
 	var router = Express.Router();
 
-	router.use('/upload', require("./upload")(router));
+	router.use('/upload', require("./upload")(router, filemanager));
 
 	return router;
 };

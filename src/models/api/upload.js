@@ -9,6 +9,7 @@ var Winston = require('winston');
  * Code
  */
 var _fileTempNumber = 0;
+var filemanager;
 
 /*
  * Handles one request for uploading multiple or one file
@@ -42,7 +43,7 @@ Upload.prototype._checkDone = function() {
 	}
 };
 
-Upload.prototype._completed = function(err, file) {
+Upload.prototype._completed = function(err, file, id) {
 	var fileStatus;
 	if(err) {
 		fileStatus = {
@@ -52,7 +53,8 @@ Upload.prototype._completed = function(err, file) {
 	}
 	else {
 		fileStatus = {
-			okay : true
+			okay : true,
+			url : "/d/" + id
 		};
 	}
 	this.status[file.originalname] = fileStatus;
@@ -60,8 +62,8 @@ Upload.prototype._completed = function(err, file) {
 };
 
 Upload.prototype._handleFile = function(file) {
-	FS.rename(file.path, "uploads/" + file.originalname, function(err) {
-		this._completed(err, file);
+	filemanager.addFile(file.originalname, file.path, this.req.ip, file.mimetype, function(err, id) {
+		this._completed(err, file, id);
 	}.bind(this));
 };
 
@@ -78,7 +80,8 @@ function rename(fieldname, filename) {
  * the request
  */
 
-module.exports = function(router) {
+module.exports = function(router, _filemanager) {
+	filemanager = _filemanager;
 	router.use(Multer({
 		dest : "temp/",
 		rename : rename

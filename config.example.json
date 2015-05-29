@@ -5,5 +5,6 @@
         "user" : "sharer",
         "database" : "sharer",
         "password" : "super_secret_password"
-    }
+    },
+    "secret" : "a_secret_keyphrase" 
 }

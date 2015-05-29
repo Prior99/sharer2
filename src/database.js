@@ -32,6 +32,27 @@ var Database = function(options, callback) {
 	}.bind(this));
 };
 
+Database.prototype.addFile = function(filename, size, ip, mimetype, callback) {
+	if(filename && size && ip && mimetype) {
+		this.pool.query("INSERT INTO Files(filename, size, ip, mimetype, uploaded) VALUES (?, ?, ?, ?, ?)",
+			[filename, size, ip, mimetype, new Date()], function(err, result) {
+				if(err) {
+					if(callback) { callback(err); }
+					else throw err;
+				}
+				else {
+					if(callback) { callback(null, result.insertId); }
+				}
+			}
+		);
+	}
+	else {
+		var err = new Error("Not all needed arguments were supplied.");
+		if(callback) { callback(err); }
+		else { throw err; }
+	}
+};
+
 Database.prototype._setupDatabase = function(callback) {
 	FS.readFile("schemas/database.sql", {encoding : "utf8"}, function(err, data) {
 		if(err) {
