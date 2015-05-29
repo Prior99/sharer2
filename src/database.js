@@ -19,6 +19,7 @@ var Database = function(options, callback) {
 		if(err) {
 			Winston.error("Connecting to database failed!");
 			if(callback) { callback(err); }
+			else { throw err; }
 		}
 		else {
 			conn.release();
@@ -38,6 +39,7 @@ Database.prototype._setupDatabase = function(callback) {
 				if(err) {
 					Winston.error("An error occured while configuring database:", err);
 					if(callback) { callback(err); }
+					else { throw err; }
 				}
 				else  if(callback) { callback(); }
 			});
