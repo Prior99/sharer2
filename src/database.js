@@ -5,6 +5,9 @@ var Winston = require('winston');
 var MySQL = require('mysql');
 var FS = require("fs");
 
+/*
+ * Code
+ */
 var Database = function(options, callback) {
 	this.pool = MySQL.createPool({
 		host : options.host,

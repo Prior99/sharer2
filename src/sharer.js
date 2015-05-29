@@ -6,6 +6,9 @@ var Winston = require("winston");
 var Webserver = require("./webserver");
 var Database = require("./database");
 
+/*
+ * Code
+ */
 var Sharer = function(options) {
 	this._startDatabase(options.database, function(err) {
 		if(err) {
