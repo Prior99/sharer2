@@ -3,11 +3,10 @@
 <table class="table">
 	<thead class="table">
 		<tr>
-			<th class="col-md-5">Filename</th>
-			<th class="col-md-2">Date</th>
+			<th class="col-md-6">Filename</th>
+			<th class="col-md-3">Date</th>
 			<th class="col-md-2">Size</th>
-			<th class="col-md-2">Type</th>
-			<th class="col-md-1">Download</th>
+			<th class="col-md-1"></th>
 		</tr>
 	</thead>
 	<tbody id="files">
@@ -18,13 +17,22 @@
 	var downloadEntryHtml;
 	var filelistElem = $("#files");
 
+	function formatSize(size) {
+		var suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+		var index = 0;
+		while(size >= 1000 && index < suffixes.length - 1) {
+			size /= 1000;
+			index++;
+		}
+		return size.toFixed(2) + suffixes[index];
+	}
+
 	function addEntry(file) {
 		var elem = $(downloadEntryHtml);
-		elem.find("filename").html(file.filename);
-		elem.find("date").html(file.date);
-		elem.find("size").html(file.size);
-		elem.find("type").html(file.mimetype);
-		elem.find("download").attr("href", "/d/" + file.id);
+		elem.find(".filename").html(file.filename);
+		elem.find(".date").html(new Date(file.date).toLocaleString());
+		elem.find(".size").html(formatSize(file.size));
+		elem.find(".download").attr("href", "/d/" + file.id);
 		elem.appendTo(filelistElem);
 	}
 
