@@ -9,7 +9,7 @@ var Express = require('express');
 module.exports = function(filemanager) {
 	var router = Express.Router();
 
-	router.get('/upload', require("./upload")(router, filemanager));
+	router.use('/upload', require("./upload")(router, filemanager));
 	router.get('/list', require("./list")(filemanager));
 	router.get('/d/:filename', require("./download")(filemanager)); //Shortcut
 
