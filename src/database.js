@@ -33,7 +33,7 @@ var Database = function(options, callback) {
 };
 
 Database.prototype.getFileList = function(callback) {
-	this.pool.query("SELECT id, filename, size, ip, mimetype, uploaded FROM Files LIMIT 200", function(err, rows) {
+	this.pool.query("SELECT id, filename, size, ip, mimetype, uploaded FROM Files ORDER BY id DESC LIMIT 200", function(err, rows) {
 		if(err) {
 			if(callback) { callback(err); }
 			else throw err;
