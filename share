@@ -1,0 +1,30 @@
+#!/usr/local/bin/node
+var FS = require('fs');
+var Request = require('request');
+
+var baseURL = "http://s.92k.de/";
+
+if(process.argv.length !== 3) {
+		console.log("Usage: " + process.argv[1] + " filename");
+		return;
+}
+
+var req = Request.post(baseURL + "api/upload", function(err, response, body) {
+		if(err) {
+				console.log("Unable to upload file!");
+				console.log(err);
+		}
+		else {
+				var answer = JSON.parse(body);
+				var info = answer[process.argv[2]];
+				if(info.okay) {
+					console.log("File uploaded to " + baseURL + info.url);
+				}
+				else {
+					console.log("An error has occured uploading the file!");
+				}
+		}
+});
+
+var form = req.form();
+form.append('upload[]', FS.createReadStream(process.argv[2]));
