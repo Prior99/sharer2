@@ -54,7 +54,7 @@ Upload.prototype._completed = function(err, file, id) {
 	else {
 		fileStatus = {
 			okay : true,
-			url : "/d/" + id
+			url : "d/" + id
 		};
 	}
 	this.status[file.originalname] = fileStatus;

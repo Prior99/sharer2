@@ -1,7 +1,7 @@
 #!/usr/local/bin/node
 var FS = require('fs');
 var Request = require('request');
-
+var Path = require('path');
 var baseURL = "http://s.92k.de/";
 
 if(process.argv.length !== 3) {
@@ -16,7 +16,7 @@ var req = Request.post(baseURL + "api/upload", function(err, response, body) {
 		}
 		else {
 				var answer = JSON.parse(body);
-				var info = answer[process.argv[2]];
+				var info = answer[Path.basename(process.argv[2])];
 				if(info.okay) {
 					console.log("File uploaded to " + baseURL + info.url);
 				}

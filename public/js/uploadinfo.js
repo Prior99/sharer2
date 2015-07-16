@@ -1,6 +1,6 @@
 var infoHtml;
 
-$.ajax("/html/uploadinfo.html").done(function(html) {
+$.ajax("html/uploadinfo.html").done(function(html) {
 	infoHtml = html;
 });
 

@@ -1,4 +1,4 @@
-<link href="/style/upload.css" rel="stylesheet">
+<link href="style/upload.css" rel="stylesheet">
 <h1>Upload</h1>
 
 <form method="post" enctype="multipart/form-data">
@@ -24,7 +24,7 @@
 	</tbody>
 </table>
 
-<script src="/js/uploadinfo.js"></script>
+<script src="js/uploadinfo.js"></script>
 
 <script>
 var uploadInfos = {};
@@ -50,7 +50,7 @@ function startUpload(file) {
 	var info = uploadInfos[file.name];
 	info.setActive();
 	$.ajax({
-		url : "/api/upload",
+		url : "api/upload",
 		type : "POST",
 		cache : false,
 		data : formData,

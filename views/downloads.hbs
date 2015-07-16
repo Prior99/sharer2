@@ -1,4 +1,4 @@
-<link href="/style/downloads.css" rel="stylesheet">
+<link href="style/downloads.css" rel="stylesheet">
 <h1>Downloads</h1>
 <table class="table">
 	<thead class="table">
@@ -32,19 +32,19 @@
 		elem.find(".filename").html(file.filename);
 		elem.find(".date").html(new Date(file.date).toLocaleString());
 		elem.find(".size").html(formatSize(file.size));
-		elem.find(".download").attr("href", "/d/" + file.id);
+		elem.find(".download").attr("href", "d/" + file.id);
 		elem.appendTo(filelistElem);
 	}
 
 	function startListing() {
-		$.ajax("/api/list").done(function(data) {
+		$.ajax("api/list").done(function(data) {
 			for(var i in data) {
 				addEntry(data[i]);
 			}
 		});
 	}
 
-	$.ajax("/html/downloadlistentry.html").done(function(html) {
+	$.ajax("html/downloadlistentry.html").done(function(html) {
 		downloadEntryHtml = html;
 		startListing();
 	});
